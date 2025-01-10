@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, flash, url_for
 import sqlite3
 import os
 
@@ -57,5 +57,64 @@ def add_user():
         connection.close()
         return render_template('login.html')
     
+@app.route('/inventory', methods=['GET', 'POST'])
+def inventory():
+    connection = sqlite3.connect('LoginData.db')
+    cursor = connection.cursor()
+    
+    # Initialize items to avoid UnboundLocalError
+    items = []
+    
+    if request.method == 'POST':
+        # Get form data to add a new item
+        foodname = request.form['food-name']
+        quantity = request.form['quantity']
+        expiry_date = request.form['expiry-date']
+        door_no = request.form['door-no']
+        
+        # Insert data into the database
+        cursor.execute(
+            "INSERT INTO INVENTORY (foodname, quantity, expiry, door_no) VALUES (?, ?, ?, ?)",
+            (foodname, quantity, expiry_date, door_no)
+        )
+        connection.commit()
+        flash("New item added successfully!")  # Add flash message
+        return redirect(url_for('inventory'))
+    
+    if request.method == 'GET' and 'door-no' in request.args:
+        # Get the door number from query parameters
+        door_no = request.args['door-no']
+        
+        # Fetch items for the given door number
+        items = cursor.execute(
+            "SELECT * FROM INVENTORY WHERE door_no = ?", (door_no,)
+        ).fetchall()
+    else:
+        # Fetch all items if no door number is specified
+        items = cursor.execute("SELECT * FROM INVENTORY").fetchall()
+    
+    connection.close()
+    return render_template('inventory.html', items=items)
+
+
+@app.route('/delete/<string:foodname>', methods=['POST'])
+def delete_item(foodname):
+    connection = sqlite3.connect('LoginData.db')
+    cursor = connection.cursor()
+    
+    try:
+        # Delete the item from the database using the item_id
+        cursor.execute("DELETE FROM INVENTORY WHERE foodname = ?", (foodname,))
+        connection.commit()
+    except Exception as e:
+        print(f"Error deleting item: {e}")
+    finally:
+        connection.close()
+    
+    # Redirect back to the inventory page
+    return redirect('/inventory')
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)

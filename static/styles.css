@@ -104,3 +104,34 @@ main img{
     margin-top:40px;
     border-radius: 50%;
 }
+
+.home-main{
+    width: 1000px;
+    height: 500px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+}
+
+.home-main .home-box{
+    width: 30%;
+    margin-left: 3%;
+    border: 2px solid black;
+}
+
+nav a{
+    font-size: 1.8rem;
+    color:rgb(69, 0, 0);
+    margin-left: 4rem;
+    font-weight: 500;
+    transition: 0.3s ease;
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+}
+
+nav a:hover, nav a.active{
+    color:rgb(0, 31, 133);
+    border-bottom: 2px solid rgb(255, 72, 0);
+    transform: scaleX(1.1);
+    transition: 1.2s ease;
+}

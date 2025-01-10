@@ -1,0 +1,159 @@
+/* General Container */
+.container {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: white;
+    text-align: center;
+}
+
+/* Background with Changing Gradient */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: linear-gradient(45deg, #00bcd4, #4caf50); /* Initial Blue-Green Gradient */
+    background-size: 400% 400%;
+    animation: gradientBackground 15s ease infinite; /* Apply animation */
+}
+
+/* Gradient Animation */
+@keyframes gradientBackground {
+    0% {
+        background: linear-gradient(45deg, #00bcd4, #4caf50);
+    }
+    25% {
+        background: linear-gradient(45deg, #00796b, #00bcd4);
+    }
+    50% {
+        background: linear-gradient(45deg, #4caf50, #2196f3);
+    }
+    75% {
+        background: linear-gradient(45deg, #2196f3, #00bcd4);
+    }
+    100% {
+        background: linear-gradient(45deg, #00bcd4, #4caf50);
+    }
+}
+
+/* Heading Styles */
+h1 {
+    text-align: center;
+    color: white;
+}
+
+/* Door Number Section Styling */
+.door-number-section {
+    background-color: rgba(0, 0, 0, 0.5);
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+}
+
+.door-number-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.door-number-container input {
+    padding: 10px;
+    font-size: 1rem;
+    border: 2px solid #4CAF50;
+    border-radius: 4px;
+    width: 200px;
+    text-align: center;
+}
+
+.door-number-container button {
+    padding: 10px 15px;
+    font-size: 1rem;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.door-number-container button:hover {
+    background-color: #45a049;
+}
+
+/* Form Section Styling */
+.form-section {
+    background-color: rgba(0, 0, 0, 0.5); /* Matching the Door Number Container */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.form-section input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form-section button {
+    width: 100%;
+    padding: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    cursor: pointer;
+}
+
+.form-section button:hover {
+    background-color: #45a049;
+}
+
+/* Inventory List Table Styling */
+.inventory-list {
+    background-color: rgba(0, 0, 0, 0.5); /* Matching the Door Number container */
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #e1f5fe; /* Light Blue Table Background */
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: black; /* Black Background for Table Header */
+    color: white; /* White text for the headers */
+}
+
+td {
+    background-color: #080808; /* Light blue for the table rows */
+}
+
+/* Additional Styling for Buttons */
+button {
+    padding: 5px 10px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #e53935;
+}

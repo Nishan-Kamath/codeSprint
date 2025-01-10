@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Waste Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='inventory_css.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1 style="color:white; text-align:center;">Food Waste Management</h1>
+
+        <!-- Flash Message Section -->
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        <div id="flash-message" class="flash-message">
+            <p>{{ messages[0] }}</p>
+        </div>
+        {% endif %}
+        {% endwith %}
+
+        <!-- Door Number Section -->
+        <div class="door-number-section">
+            <h2 style="color:white;">Enter Door Number</h2>
+            <div class="door-number-container">
+                <form method="GET" action="/inventory">
+                    <input type="text" id="door-number-input" name="door-no" placeholder="Enter Door Number" required>
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Add Food Item Section -->
+        <div class="form-section">
+            <h2 style="color:white;">Add Food Item</h2>
+            <form method="POST" action="/inventory">
+                <label for="food-name">Food Name</label>
+                <input type="text" id="food-name" name="food-name" placeholder="e.g., Rice, Milk" required>
+                
+                <label for="quantity">Quantity</label>
+                <input type="number" id="quantity" name="quantity" placeholder="e.g., 10" required>
+                
+                <label for="expiry-date">Expiry Date</label>
+                <input type="date" id="expiry-date" name="expiry-date" required>
+                
+                <label for="door-no-add">Door Number</label>
+                <input type="text" id="door-no-add" name="door-no" placeholder="e.g., A-101" required>
+                
+                <button type="submit">Add Item</button>
+            </form>
+        </div>
+
+        <!-- Inventory List Section -->
+        <div class="inventory-list">
+            <h2 style="color:white;">Food Inventory</h2>
+            {% if items %}
+            <table id="inventory-table">
+                <thead>
+                    <tr>
+                        <th>Food Name</th>
+                        <th>Quantity</th>
+                        <th>Expiry Date</th>
+                        <th>Door No</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr>
+                        <td>{{ item[0] }}</td>
+                        <td>{{ item[1] }}</td>
+                        <td>{{ item[2] }}</td>
+                        <td>{{ item[3] }}</td>
+                        <td>
+                            <form method="POST" action="/delete/{{ item[0] }}" style="display:inline;">
+                                <button type="submit">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <p style="color:white;">No items found for the given door number.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- JavaScript to hide flash message after 5 seconds -->
+    <script>
+        setTimeout(() => {
+            const flashMessage = document.getElementById('flash-message');
+            if (flashMessage) {
+                flashMessage.style.display = 'none';
+            }
+        }, 5000); // 5000ms = 5 seconds
+    </script>
+</body>
+
+</html>
