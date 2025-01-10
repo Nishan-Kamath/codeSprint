@@ -3,25 +3,137 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Food Donation Platform</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='home-css.css') }}">
 </head>
 <body>
-    <nav>
-        <a href="#about" class="active">Home</a>
-        <a href="#achievements">Skills</a>
-        <a href="#inventory">Projects</a>
-        <a href="#waste">Education</a>
+    <div class="dynamic-container">
+        Welcome to Food Donation Platform
+    </div>
+    <nav class="button-container">
+        <button class="nav-button green" onclick="navigateTo('about')">About Us</button>
+        <button class="nav-button blue" onclick="navigateTo('leaderboard')">Leaderboard</button>
+        <button class="nav-button green" onclick="navigateTo('donate')">Donate Food</button>
+        <button class="nav-button blue" onclick="navigateTo('history')">Donation History</button>
     </nav>
-    <div class="home-main">
-        <div class="home-box">
+    <main>
+        <!-- About Us Section -->
+        <section id="about" class="section about-us">
+            <h2>About Us</h2>
+            <p>
+                At <strong>Food Donation Platform</strong>, we envision a world without hunger and food waste. 
+                Our mission is to bridge the gap between surplus food and those in need, ensuring that no meal goes to waste.
+            </p>
+            <p><strong>"The food you waste could be on someone's plate."</strong></p>
+            <p>
+                Every day, over <strong>1.3 billion tons</strong> of food is wasted globally, which is enough to feed millions of hungry people. 
+                Did you know that in India alone, approximately <strong>68 million tons</strong> of food is wasted annually? This is equivalent to almost 
+                <strong>40%</strong> of the food produced.
+            </p>
+            <p>
+                Our platform aims to bridge this gap by connecting individuals and organizations with excess food to those in need. 
+                Through technology, awareness, and community efforts, we strive to significantly reduce food wastage and ensure no one sleeps hungry.
+            </p>
+            <p>
+                Join us in making a difference—one meal, one donation, and one life at a time.
+            </p>
+        </section>
+        <section id="leaderboard" class="section">
+            <h2>Leaderboard</h2>
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Donations</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for donor in leaderboard %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ donor[0] }} {{ donor[1] }}</td>
+                        <td>{{ donor[2] }} Meals</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        
 
-        </div>
-        <div class="home-box">
-
-        </div>
-
-    </div> 
-   
+        <section id="quote-container" class="section animated-quote">
+            <p class="quote-text">
+                <strong>"Take what you eat, eat what you take, and if not, choose to donate."</strong>
+            </p>
+        </section>
+        
+        
+        
+        <!-- Donate Food Form Section -->
+        <section id="donate">
+        <h2>Donate Food</h2>
+                <form action="/add_donation" method="POST">
+                    <label for="first-name">First Name:</label>
+                    <input type="text" id="first-name" name="first_name" required>
+        
+                    <label for="last-name">Last Name:</label>
+                    <input type="text" id="last-name" name="last_name" required>
+        
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+        
+                    <label for="foodname">Food Name:</label>
+                    <input type="text" id="foodname" name="foodname" placeholder="Enter the food name" required>
+        
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" name="quantity" placeholder="Enter the quantity" required>
+        
+                    <label for="donation-date">Donation Date:</label>
+                    <input type="date" id="donation-date" name="donation_date" required>
+        
+                    <label for="service">Service:</label>
+                    <select id="service" name="service" required>
+                        <option value="delivery">Delivery</option>
+                        <option value="pickup">Pickup</option>
+                    </select>
+        
+                    <button type="submit">Donate</button>
+        </form>
+    </section>
+        
+        <!-- Donation History Section -->
+        <section id="history" class="section">
+            <h2>Donation History</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Food Name</th>
+                        <th>Quantity</th>
+                        <th>Donation Date</th>
+                        <th>Service</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for donation in donations %}
+                    <tr>
+                        <td>{{ donation[0] }}</td>
+                        <td>{{ donation[1] }} plates</td>
+                        <td>{{ donation[2] }}</td>
+                        <td>{{ donation[3] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        
+    </main>
+    <footer class="footer">
+        <p>&copy; 2025 Food Donation Platform. All rights reserved.</p>
+    </footer>
+    <script>
+        function navigateTo(section) {
+            document.getElementById(section).scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
 </body>
 </html>

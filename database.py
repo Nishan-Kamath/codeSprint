@@ -12,7 +12,7 @@ cmd1 = """CREATE TABLE IF NOT EXISTS USERS(first_name varchar(50),
 cursor.execute(cmd1)
 
 cmd2 = """INSERT INTO USERS(first_name,last_name,email,password,door_no)values('tester','test','tester@gmail.com','tester','1234')"""
-cursor.execute(cmd2)
+#cursor.execute(cmd2)
 connection.commit()
 
 cmd3 = """CREATE TABLE IF NOT EXISTS INVENTORY(foodname varchar(50),
@@ -32,7 +32,7 @@ cmd4 = """CREATE TABLE IF NOT EXISTS DONATION(first_name varchar(50),
 cursor.execute(cmd3)
 cursor.execute(cmd4)
 
-ans = cursor.execute("select * from USERS").fetchall()
+ans = cursor.execute("select * from DONATION").fetchall()
 
 for i in ans:
     print(i)
