@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fundraising & Donation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f0f8f5;
+        }
+        h1 {
+            text-align: center;
+            color: #4caf50;
+        }
+        .donation-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            margin: auto;
+        }
+        input[type="number"] {
+            padding: 10px;
+            width: 50%;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .confirmation-container {
+            text-align: center;
+            background-color: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 50%;
+            margin: auto;
+        }
+        .btn-back {
+            padding: 10px 20px;
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .btn-back:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <h1>Help Us Fight Food Waste</h1>
+
+    {% if donation_amount %}
+    <!-- Donation confirmation section -->
+    <div class="confirmation-container">
+        <h2>Thank You for Your Generous Donation!</h2>
+        <p>Your donation of ${{ donation_amount }} has been successfully processed.</p>
+        <p>Thanks for contributing to our mission to reduce food waste.</p>
+        <button class="btn-back" onclick="window.location.href='/';">Back to Home</button>
+    </div>
+    {% else %}
+    <!-- Donation form section -->
+    <div class="donation-container">
+        <h2>Make a Donation</h2>
+        <p>Your contribution can make a big difference in reducing food wastage. Donate to help feed those in need.</p>
+        <form action="/fundraising" method="POST">
+            <label for="donation-amount">Donation Amount ($):</label><br>
+            <input type="number" id="donation-amount" name="donation-amount" min="1" required><br>
+            <button type="submit">Donate Now</button>
+        </form>
+    </div>
+    {% endif %}
+</body>
+</html>

@@ -7,9 +7,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='home-css.css') }}">
 </head>
 <body>
-    <div class="dynamic-container">
-        Welcome to Food Donation Platform
-    </div>
     <nav class="button-container">
         <button class="nav-button green" onclick="navigateTo('about')">About Us</button>
         <button class="nav-button blue" onclick="navigateTo('leaderboard')">Leaderboard</button>
@@ -17,6 +14,13 @@
         <button class="nav-button blue" onclick="navigateTo('history')">Donation History</button>
     </nav>
     <main>
+
+        <header class="text-center">
+            <h1>Transforming Food Waste Into Community Solutions</h1>
+            <p class="lead">Empowering communities to take action against food waste, while providing nourishment to those in need and creating a sustainable future for all.</p>
+        </header>
+
+        
         <!-- About Us Section -->
         <section id="about" class="section about-us">
             <h2>About Us</h2>
@@ -125,6 +129,17 @@
                 </tbody>
             </table>
         </section>
+
+        <div id="chatbot-container">
+            <div id="chatbox">
+                <div class="message bot-message">Hello! How can I assist you today?</div>
+            </div>
+            <div class="user-options">
+                <button class="user-btn" onclick="window.location.href='/waste'">Waste Categorization</button>
+                <button class="user-btn" onclick="window.location.href='/donation'">Food Donation Platform</button>
+                <button class="user-btn" onclick="sendOption(3)">Composting Information</button>
+            </div>
+        </div>
         
     </main>
     <footer class="footer">

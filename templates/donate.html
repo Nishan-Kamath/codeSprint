@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Creative Fundraising Platform</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Custom Styles -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e7f3fc; /* Light blue background */
+        }
+
+        header {
+            background-image: url('https://source.unsplash.com/1600x900/?food,charity');
+            background-size: cover;
+            background-position: center;
+            color: white;
+            padding: 50px 0;
+            
+        }
+
+        header h1 {
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            color: #006400; /* Dark Green Color */
+        }
+
+        header p {
+            color: #003366; /* Dark Blue Color */
+        }
+
+        .cause-card {
+            border: 1px solid #28a745;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        .cause-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .image-container {
+            border: 2px solid #28a745;
+            border-radius: 10px;
+            padding: 10px;
+        }
+
+        .carousel-item {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        footer {
+            background-color: #212529;
+            color: white;
+        }
+
+        .donate-btn {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .donate-btn:hover {
+            background-color: #218838;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #28a745; /* Green Color */
+        }
+    </style>
+</head>
+
+<body>
+    <header class="text-center">
+        <h1>Creative Fundraising Platform</h1>
+        <p class="lead">Bringing communities together to support those in need.</p>
+    </header>
+
+    <main class="container my-5">
+        <!-- Fundraising Section -->
+        <section id="fundraising" class="mb-5">
+            <h2 class="text-center mb-4">Our Impactful Fundraising Campaigns</h2>
+            <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+                <!-- Old Age Homes -->
+                <div class="col">
+                    <div class="card cause-card">
+                        <div class="image-container">
+                            <img src="https://sadgurusevatrust.org/media/2022/05/WhatsApp-Image-2022-05-29-at-4.26.39-PM-1024x768.jpeg" class="card-img-top" alt="Old Age Homes">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Support Old Age Homes</h5>
+                            <p class="card-text">Provide care packages and meals for the elderly in need.</p>
+                            <button class="btn donate-btn donate-btn-old-age" data-cause="Old Age Homes">Donate</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Government Hospitals -->
+                <div class="col">
+                    <div class="card cause-card">
+                        <div class="image-container">
+                            <img src="https://cimages.milaap.org/milaap/image/upload/c_fill,g_faces,h_315,w_420/v1588909137/production/images/campaign/170084/Food_donations_for_senior_citizens_in_andhrapradesh_donate_online_vkjzob_1588909142.jpg" class="card-img-top" alt="Government Hospitals">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Support Government Hospitals</h5>
+                            <p class="card-text">Fund meals and basic necessities for patients and their families.</p>
+                            <button class="btn donate-btn donate-btn-hospitals" data-cause="Government Hospitals">Donate</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Roadside Distribution -->
+                <div class="col">
+                    <div class="card cause-card">
+                        <div class="image-container">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS6hSIDFeR5EDSehFAibJoDvvsDRteSFPiVFA&s" class="card-img-top" alt="Roadside Distribution">
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">Roadside Food Distribution</h5>
+                            <p class="card-text">Distribute food to the homeless and those living on the streets.</p>
+                            <button class="btn donate-btn donate-btn-roadside" data-cause="Roadside Food Distribution">Donate</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Donation Form Section -->
+        <section id="donate-section" class="d-none">
+            <h2 class="text-center text-success mb-4">Donate Now</h2>
+            <form id="donation-form" action="/fundraising">
+                <div class="mb-3">
+                    <label for="amount" class="form-label">Enter Donation Amount</label>
+                    <input type="number" id="amount" class="form-control" placeholder="Amount in USD" required>
+                </div>
+                <button type="submit" class="btn btn-success w-100">Submit Donation</button>
+            </form>
+        </section>
+
+        <!-- Achievements Carousel -->
+        <div id="carouselAchievements" class="carousel slide mt-5" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <p class="text-success">"Over 1,000 meals served to orphanages in the past month!"</p>
+                </div>
+                <div class="carousel-item">
+                    <p class="text-success">"Provided essentials to 500 families in government hospitals."</p>
+                </div>
+                <div class="carousel-item">
+                    <p class="text-success">"Helped 2,000 elderly citizens with care packages this year."</p>
+                </div>
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselAchievements" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselAchievements" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+        </div>
+    </main>
+
+    <footer class="text-center py-3">
+        <p>&copy; 2025 Creative Fundraising Platform. All rights reserved.</p>
+        <p>Donate via Google Pay: <a href="https://play.google.com/store/apps/details?id=com.google.android.apps.nbu.paisa.user" target="_blank" class="text-white">Google Pay</a></p>
+    </footer>
+
+    <!-- Bootstrap JS and Popper.js -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+
+    <!-- Custom JS -->
+    <script>
+        document.querySelectorAll('.donate-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                const cause = button.getAttribute('data-cause');
+                alert("Thank you for choosing to support ${cause}. You will now be redirected to the donation page.");
+                
+                // Save the cause type to dynamically update the page
+                sessionStorage.setItem('selectedCause', cause);
+                
+                // Navigate to donation form
+                document.getElementById('fundraising').classList.add('d-none');
+                document.getElementById('donate-section').classList.remove('d-none');
+            });
+        });
+
+        // Handle donation form submission
+        document.getElementById('donation-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const amount = document.getElementById('amount').value;
+            const cause = sessionStorage.getItem('selectedCause');
+
+            if (amount > 0) {
+                // Show confirmation alert
+                alert("Thank you for your generous donation of $${amount} towards ${cause}!");
+
+                // Redirect to Google Play (replace with your app's Play Store URL)
+                window.location.href = "https://play.google.com/store/apps/details?id=com.yourapp.donation&amount=${amount}";
+            } else {
+                alert('Please enter a valid donation amount.');
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waste Categorization</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='waste.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Waste Categorization</h1>
+        <div class="form-section">
+            <label for="food-item">Type of Food Item</label>
+            <select id="food-item">
+                <option value="vegetables">Vegetables</option>
+                <option value="fruits">Fruits</option>
+                <option value="meat">Meat</option>
+            </select>
+
+            <label>Cooked</label>
+            <input type="radio" id="cooked-yes" name="cooked" value="yes"> Yes
+            <input type="radio" id="cooked-no" name="cooked" value="no"> No
+
+            <label for="plastic-packed">Packed with Plastic?</label>
+            <input type="checkbox" id="plastic-packed">
+
+            <label for="food-amount">Amount of Food</label>
+            <input type="text" id="food-amount" placeholder="Enter the amount">
+        </div>
+
+        <!-- Output Container (Now a divider-like container) -->
+        <div class="output-container" id="output-container">
+            <h2>Here's what you should do</h2>
+            <!-- Output will be displayed here -->
+        </div>
+
+        <div class="instructions">
+            <h2>Composting Instructions</h2>
+            <ul>
+                <li>Compost vegetable scraps</li>
+                <li>Do not compost meat</li>
+                <li>Remove plastic packaging before composting</li>
+            </ul>
+            <p>Ensure the food is separated properly before composting.</p>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
+d

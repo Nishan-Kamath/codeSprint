@@ -156,6 +156,29 @@ def delete_item(foodname):
 
     return redirect('/inventory')
 
+@app.route('/waste')
+def waste():
+    return render_template('waste.html')
+
+@app.route('/donation')
+def donation():
+    return render_template('donate.html')
+
+@app.route('/achievements')
+def achievements():
+    return render_template('achievements.html')
+
+# Fundraising and Donation route
+@app.route('/fundraising', methods=['GET', 'POST'])
+def fundraising():
+    donation_amount = None
+    if request.method == 'POST':
+        donation_amount = request.form['donation-amount']
+        # Process the donation here (e.g., saving to a database, etc.)
+        print(f"Donation received: ${donation_amount}")  # Debugging print
+    return render_template('fundraising_donation.html', donation_amount=donation_amount)
+
+
 if __name__ == '__main__':
     # Ensure tables exist
     connection = sqlite3.connect(db_file)
@@ -189,5 +212,7 @@ if __name__ == '__main__':
     """)
     connection.commit()
     connection.close()
+
+
 
     app.run(debug=True)
