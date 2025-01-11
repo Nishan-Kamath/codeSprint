@@ -546,6 +546,12 @@ footer {
     transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
+.about-us{
+    width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 .donate-btn:hover {
     background-color: #01579b;
     transform: scale(1.1);
