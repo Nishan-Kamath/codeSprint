@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recipe Generator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background: linear-gradient(45deg, #A5D6A7, #81D4FA);
+            background-size: 400% 400%;
+            animation: gradientAnimation 8s ease infinite;
+            color: black;
+        }
+        
+        header {
+            background-color: #66BB6A;
+            color: #ffffff;
+            padding: 20px;
+            text-align: center;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 40px;
+            font-weight: bold;
+            letter-spacing: 2px;
+        }
+
+        .main-container {
+            display: flex;
+            justify-content: space-around;
+            flex: 1;
+            padding: 20px;
+            gap: 20px;
+        }
+
+        .container {
+            width: 30%;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            background-color: #0288d1;
+            color: white;
+        }
+
+        .container h2 {
+            margin-bottom: 20px;
+            font-size: 30px;
+        }
+
+        .container p {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        #ingredients {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 10px;
+            border: 2px solid #81D4FA;
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            color: #333;
+        }
+
+        #generate-button {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            background-color: #66bb6a;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        #generate-button:hover {
+            background-color: #388e3c;
+        }
+
+        #recipe-container {
+            background-color: #66bb6a;
+            color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #recipe-container h2 {
+            font-size: 30px;
+            margin-bottom: 20px;
+            text-align: center;
+            letter-spacing: 1px;
+        }
+
+        .recipe-list {
+            margin-top: 20px;
+        }
+
+        .recipe-list div {
+            margin-bottom: 20px;
+        }
+
+        #tips-container {
+            background-color: #f1f8e9;
+            color: black;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+
+        #tips-container h3 {
+            font-size: 24px;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            width: 100%;
+            text-align: center;
+            background-color: #37474f;
+            color: white;
+            padding: 10px;
+            margin-top: 40px;
+            font-size: 14px;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        #chatbot-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    background-color: #003366; /* Dark blue */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    animation: slideInFromRight 1s ease-out;
+}
+
+#chatbox {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.message {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.bot-message {
+    background-color: #e0f7fa; /* Lighter cyan */
+}
+
+.user-message {
+    background-color: #a7ffeb; /* Lighter teal */
+    text-align: right;
+}
+
+.user-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-btn {
+    background-color: #0288d1; /* Medium blue */
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.user-btn:hover {
+    background-color: #01579b;
+    transform: scale(1.1);
+}
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Recipe Generator</h1>
+</header>
+
+<div class="main-container">
+    <div class="container">
+        <h2>Enter Your Ingredients</h2>
+        <p>Tell me the ingredients you have, and I'll suggest some recipes!</p>
+        <input type="text" id="ingredients" placeholder="E.g., chicken, rice, tomato">
+        <button id="generate-button" onclick="fetchRecipes()">Generate Recipe</button>
+    </div>
+
+    <div class="container" id="recipe-container">
+        <h2>Recipe Suggestions</h2>
+        <div id="recipe-list" class="recipe-list"></div>
+    </div>
+</div>
+
+<div class="main-container">
+    <div class="container" id="tips-container">
+        <h3>Cooking Tips</h3>
+        <ul>
+            <li>Always preheat your oven before baking.</li>
+            <li>Use fresh ingredients for better flavor.</li>
+            <li>Be careful with spices; start with a small amount.</li>
+            <li>Let your meat rest before cutting for juicier results.</li>
+        </ul>
+    </div>
+</div>
+
+<div id="chatbot-container">
+    <div id="chatbox">
+        <div class="message bot-message">Hello! How can I assist you today?</div>
+    </div>
+    <div class="user-options">
+        <button class="user-btn" onclick="window.location.href='/waste'">Waste Categorization</button>
+        <button class="user-btn" onclick="window.location.href='/inventory'">Home inventory</button>
+        <button class="user-btn" onclick="window.location.href='/donation'">Fundraising Platform</button>
+        <button class="user-btn" onclick="window.location.href='/emergency'">Emergency Donation</button>
+        <button class="user-btn" onclick="window.location.href='/stackFood'">Food in stack</button>
+        <button class="user-btn" onclick="window.location.href='/chat-bot'">AI recipe generator</button>
+    </div>
+</div>
+<footer>
+    <p>&copy; 2025 Recipe Generator. All rights reserved.</p>
+</footer>
+
+<script>
+    function fetchRecipes() {
+    const ingredients = document.getElementById('ingredients').value;
+    const apiKey = '018666ab29fb40f78d4d24ca82db8e4e'; // Replace with your API key
+    const url = `https://api.spoonacular.com/recipes/findByIngredients?ingredients=${ingredients}&number=5&apiKey=${apiKey}`;
+
+    fetch(url)
+        .then(response => response.json())
+        .then(data => {
+            let recipeHTML = '';
+            if (data.length > 0) {
+                data.forEach(recipe => {
+                    recipeHTML += `
+                        <div>
+                            <h3>${recipe.title}</h3>
+                            <img src="${recipe.image}" alt="${recipe.title}" width="200">
+                            <p><a href="https://spoonacular.com/recipes/${recipe.title.replace(/\s+/g, '-').toLowerCase()}-${recipe.id}" target="_blank">View Recipe</a></p>
+                        </div>
+                    `;
+                });
+            } else {
+                recipeHTML = '<p>No recipes found for the given ingredients.</p>';
+            }
+            document.getElementById('recipe-list').innerHTML = recipeHTML;
+        })
+        .catch(error => {
+            console.error('Error fetching recipes:', error);
+            document.getElementById('recipe-list').innerHTML = '<p>Error fetching recipes. Please try again later.</p>';
+        });
+}
+
+</script>
+
+</body>
+</html>

@@ -9,30 +9,34 @@
 <body>
     <div class="container">
         <h1>Waste Categorization</h1>
-        <div class="form-section">
-            <label for="food-item">Type of Food Item</label>
-            <select id="food-item">
-                <option value="vegetables">Vegetables</option>
-                <option value="fruits">Fruits</option>
-                <option value="meat">Meat</option>
-            </select>
+        <form method="POST" action="/waste">
+            <div class="form-section">
+                <label for="food-item">Type of Food Item</label>
+                <select id="food-item" name="food_item">
+                    <option value="vegetables">Vegetables</option>
+                    <option value="fruits">Fruits</option>
+                    <option value="meat">Meat</option>
+                </select>
 
-            <label>Cooked</label>
-            <input type="radio" id="cooked-yes" name="cooked" value="yes"> Yes
-            <input type="radio" id="cooked-no" name="cooked" value="no"> No
+                <label>Cooked</label>
+                <input type="radio" id="cooked-yes" name="cooked" value="yes"> Yes
+                <input type="radio" id="cooked-no" name="cooked" value="no" checked> No
 
-            <label for="plastic-packed">Packed with Plastic?</label>
-            <input type="checkbox" id="plastic-packed">
+                <label for="plastic-packed">Packed with Plastic?</label>
+                <input type="checkbox" id="plastic-packed" name="plastic_packed">
 
-            <label for="food-amount">Amount of Food</label>
-            <input type="text" id="food-amount" placeholder="Enter the amount">
+                <label for="food-amount">Amount of Food</label>
+                <input type="text" id="food-amount" name="food_amount" placeholder="Enter the amount" required>
+            </div>
+            <button type="submit">Categorize Waste</button>
+        </form>
+
+        {% if result %}
+        <div class="output-container">
+            <h2>Here's what you should do:</h2>
+            <p>{{ result }}</p>
         </div>
-
-        <!-- Output Container (Now a divider-like container) -->
-        <div class="output-container" id="output-container">
-            <h2>Here's what you should do</h2>
-            <!-- Output will be displayed here -->
-        </div>
+        {% endif %}
 
         <div class="instructions">
             <h2>Composting Instructions</h2>
@@ -44,8 +48,16 @@
             <p>Ensure the food is separated properly before composting.</p>
         </div>
     </div>
-    
-    <script src="script.js"></script>
+    <div id="chatbot-container">
+        <div id="chatbox">
+            <div class="message bot-message">Hello! How can I assist you today?</div>
+        </div>
+        <div class="user-options">
+            <button class="user-btn" onclick="window.location.href='/waste'">Waste Categorization</button>
+            <button class="user-btn" onclick="window.location.href='/donation'">Food Donation Platform</button>
+            <button class="user-btn" onclick="window.location.href='/emergency'">Emergency Donation</button>
+            <button class="user-btn" onclick="window.location.href='/stackFood'">Food in stack</button>
+        </div>
+    </div>
 </body>
 </html>
-d

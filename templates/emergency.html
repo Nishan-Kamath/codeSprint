@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Donation</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f8f4;
+            color: #000000; /* Black text for default content */
+        }
+
+        header {
+            background-color: #004d40; /* Dark green background */
+            color: #ffffff; /* White text for contrast */
+            padding: 20px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 36px;
+        }
+
+        .horizontal-container {
+            display: flex; /* Flexbox for horizontal alignment */
+            justify-content: space-around; /* Space between items */
+            align-items: stretch; /* Ensure all boxes stretch to the same height */
+            gap: 20px; /* Space between items */
+            padding: 20px;
+            flex-wrap: wrap; /* Allow wrapping on smaller screens */
+        }
+
+        .section-box {
+            background-color: #00695c; /* Green background for uniformity */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            flex: 1; /* Allow sections to grow/shrink equally */
+            min-width: 250px; /* Minimum width for smaller screens */
+            max-width: 300px;
+            text-align: center;
+            border: 1px solid #004d40; /* Green border for boxes */
+            display: flex;
+            flex-direction: column; /* Align content vertically */
+            justify-content: space-between; /* Distribute items */
+        }
+
+        .section-box h2 {
+            font-size: 24px;
+            color: #ffffff; /* White text for titles */
+            margin-bottom: 10px;
+        }
+
+        .section-box p {
+            font-size: 16px;
+            color: #ffffff; /* White text for content */
+            margin-bottom: 15px;
+        }
+
+        #qrcode {
+            margin: 0 auto; /* Center-align QR code */
+        }
+
+        .cta-buttons a {
+            display: inline-block;
+            background-color: #0288d1; /* Blue background for buttons */
+            color: #ffffff; /* White text for contrast */
+            padding: 12px 24px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 5px 0;
+            transition: background-color 0.3s ease;
+        }
+
+        .cta-buttons a:hover {
+            background-color: #01579b; /* Darker blue on hover */
+        }
+
+        img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        footer {
+            background-color: #37474f; /* Grey background for footer */
+            color: #ffffff; /* White text for contrast */
+            text-align: center;
+            padding: 20px;
+        }
+
+        footer a {
+            color: #0288d1; /* Blue for links */
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        #chatbot-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 300px;
+    background-color: #003366; /* Dark blue */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+    animation: slideInFromRight 1s ease-out;
+}
+
+#chatbox {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-bottom: 10px;
+}
+
+.message {
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.bot-message {
+    background-color: #e0f7fa; /* Lighter cyan */
+}
+
+.user-message {
+    background-color: #a7ffeb; /* Lighter teal */
+    text-align: right;
+}
+
+.user-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-btn {
+    background-color: #0288d1; /* Medium blue */
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.user-btn:hover {
+    background-color: #01579b;
+    transform: scale(1.1);
+}
+    </style>
+    <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+</head>
+<body>
+
+<header>
+    <h1>Emergency Donation</h1>
+</header>
+
+<section class="horizontal-container">
+    <!-- QR Code Section -->
+    <div class="section-box">
+        <h2>Scan to Donate</h2>
+        <p>Scan the QR code below to access our donation page:</p>
+        <div id="qrcode"></div>
+        <script type="text/javascript">
+            new QRCode(document.getElementById("qrcode"), {
+                text: "https://www.your-donation-link.com", // Replace with your donation link
+                width: 150,
+                height: 150
+            });
+        </script>
+    </div>
+
+    <!-- Donation Buttons -->
+    <div class="section-box">
+        <h2>Donation Options</h2>
+        <p>Help save food and make a difference:</p>
+        <div class="cta-buttons">
+            <a href="/home">Donate to Cattle</a><br>
+            <a href="/home">Donate to Pigs</a><br>
+            <a href="/home">Donate to Farms</a>
+        </div>
+    </div>
+
+    <!-- Location with Static Google Maps -->
+    <div class="section-box">
+        <h2>Our Location</h2>
+        <p>Visit us or contact for more details:</p>
+        <div class="container">
+            <p>Find us at our main office:</p>
+            <img src="static/loc.jpg" alt="Static Map of Location" style="width:400px; height:300px; border:2px solid grey;">
+        </div>
+    </div>
+
+    <!-- Contact Information -->
+    <div class="section-box">
+        <h2>Contact Us</h2>
+        <p>Get in touch for more information:</p>
+        <p>Email: <a href="mailto:info@emergencydonation.com" style="color: #0288d1;">info@emergencydonation.com</a></p>
+        <p>Phone: <a href="tel:+123456789" style="color: #0288d1;">+123456789</a></p>
+        <a href="tel:+123456789" class="cta-button">Call for Directions</a>
+    </div>
+</section>
+
+<div id="chatbot-container">
+    <div id="chatbox">
+        <div class="message bot-message">Hello! How can I assist you today?</div>
+    </div>
+    <div class="user-options">
+        <button class="user-btn" onclick="window.location.href='/waste'">Waste Categorization</button>
+        <button class="user-btn" onclick="window.location.href='/inventory'">Home inventory</button>
+        <button class="user-btn" onclick="window.location.href='/donation'">Food Donation Platform</button>
+        <button class="user-btn" onclick="window.location.href='/emergency'">Emergency Donation</button>
+        <button class="user-btn" onclick="window.location.href='/stackFood'">Food in stack</button>
+        <button class="user-btn" onclick="window.location.href='/chat-bot'">AI recipe generator</button>
+    </div>
+</div>
+
+<footer>
+    <p>&copy; 2025 Emergency Donation. All rights reserved.</p>
+</footer>
+
+</body>
+</html>

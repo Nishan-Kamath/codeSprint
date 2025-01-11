@@ -1,6 +1,8 @@
 from flask import Flask, render_template, request, redirect, flash, url_for
 import sqlite3
 import os
+import smtplib
+from email.message import EmailMessage
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -156,13 +158,41 @@ def delete_item(foodname):
 
     return redirect('/inventory')
 
-@app.route('/waste')
+@app.route('/waste', methods=['GET', 'POST'])
 def waste():
-    return render_template('waste.html')
+    if request.method == 'POST':
+        # Fetch user inputs
+        food_item = request.form.get('food_item')
+        is_cooked = request.form.get('cooked')
+        is_packed = request.form.get('plastic_packed')
+        amount = request.form.get('food_amount')
+
+        # Waste categorization logic
+        if food_item in ['vegetables', 'fruits'] and is_cooked == 'no' and is_packed == 'off':
+            result = f"{amount} of {food_item} can be composted."
+        elif food_item == 'meat' or is_cooked == 'yes':
+            result = f"{amount} of {food_item} should be disposed of carefully. Do not compost cooked or meat items."
+        elif is_packed == 'on':
+            result = f"Remove plastic packaging from {food_item} before disposal."
+        else:
+            result = f"{amount} of {food_item} does not fit composting requirements. Dispose of appropriately."
+
+        return render_template('waste.html', result=result)
+
+    # Initial GET request
+    return render_template('waste.html', result=None)
 
 @app.route('/donation')
 def donation():
     return render_template('donate.html')
+
+@app.route('/chat-bot')
+def chat_bot():
+    return render_template('chat-bot.html')
+
+@app.route('/emergency')
+def emergency():
+    return render_template('emergency.html')
 
 @app.route('/achievements')
 def achievements():
@@ -177,6 +207,104 @@ def fundraising():
         # Process the donation here (e.g., saving to a database, etc.)
         print(f"Donation received: ${donation_amount}")  # Debugging print
     return render_template('fundraising_donation.html', donation_amount=donation_amount)
+
+@app.route('/stackFood')
+def stack_food():
+    connection = sqlite3.connect(db_file)
+    cursor = connection.cursor()
+
+    # Fetch all available food items from the DONATION table
+    items = cursor.execute("SELECT foodname, quantity, email FROM DONATION").fetchall()
+    connection.close()
+
+    return render_template('stackFood.html', items=items)
+
+@app.route('/order_food', methods=['POST'])
+def order_food():
+    foodname = request.form.get('foodname')
+
+    connection = sqlite3.connect(db_file)
+    cursor = connection.cursor()
+
+    try:
+        # Fetch the donor's email for the selected food item
+        donor_data = cursor.execute("SELECT email FROM DONATION WHERE foodname = ?", (foodname,)).fetchone()
+        if not donor_data:
+            flash(f"No matching food item found for {foodname}.")
+            return redirect('/stackFood')
+
+        donor_email = donor_data[0]
+
+        # Remove the ordered food item from the DONATION table
+        cursor.execute("DELETE FROM DONATION WHERE foodname = ?", (foodname,))
+        connection.commit()
+
+        # Send email notifications
+        recipient_email = donor_email # Replace with the recipient's actual email
+        send_email_notifications(foodname, donor_email, recipient_email)
+
+        flash(f"{foodname} has been successfully ordered! Emails sent to donor and recipient.")
+    except Exception as e:
+        flash(f"Error ordering food: {e}")
+    finally:
+        connection.close()
+
+    return redirect('/stackFood')
+
+
+def send_email_notifications(foodname, donor_email, recipient_email):
+    """Send email notifications to the donor and recipient."""
+    sender_email = "nishankamath@gmail.com"  # Replace with your email
+    sender_password = "@K1a2m3a4t5h6"       # Replace with your email password
+
+    subject = f"Food Order Update: {foodname}"
+
+    donor_message = f"""
+    Hello,
+
+    Your donated food item '{foodname}' has been successfully ordered by a recipient.
+    Thank you for your generous donation!
+
+    Regards,
+    Food Donation Team
+    """
+
+    recipient_message = f"""
+    Hello,
+
+    You have successfully ordered the food item '{foodname}'.
+    Please coordinate with the donor for further details.
+
+    Regards,
+    Food Donation Team
+    """
+
+    try:
+        # Set up the email server
+        server = smtplib.SMTP('smtp.gmail.com', 587)
+        server.starttls()
+        server.login(sender_email, sender_password)
+
+        # Send email to the donor
+        msg = EmailMessage()
+        msg['Subject'] = subject
+        msg['From'] = sender_email
+        msg['To'] = donor_email
+        msg.set_content(donor_message)
+        server.send_message(msg)
+
+        # Send email to the recipient
+        msg = EmailMessage()
+        msg['Subject'] = subject
+        msg['From'] = sender_email
+        msg['To'] = recipient_email
+        msg.set_content(recipient_message)
+        server.send_message(msg)
+
+        server.quit()
+    except Exception as e:
+        print(f"Error sending email: {e}")
+
 
 
 if __name__ == '__main__':
