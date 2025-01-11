@@ -78,8 +78,8 @@ def add_user():
         flash("User already exists. Please log in.")
         return render_template('login.html')
     else:
-        cursor.execute("INSERT INTO USERS(first_name, last_name, email, password,door_no) VALUES (?, ?, ?, ?,?)", 
-                       (fname, lname, email, password,door_no))
+        cursor.execute("INSERT INTO USERS(first_name, last_name, email, password, door_no) VALUES (?, ?, ?, ?, ?)", 
+                       (fname, lname, email, password, door_no))
         connection.commit()
         connection.close()
         flash("Sign-up successful! Please log in.")
@@ -240,7 +240,7 @@ def order_food():
         connection.commit()
 
         # Send email notifications
-        recipient_email = donor_email # Replace with the recipient's actual email
+        recipient_email = donor_email  # Replace with the recipient's actual email
         send_email_notifications(foodname, donor_email, recipient_email)
 
         flash(f"{foodname} has been successfully ordered! Emails sent to donor and recipient.")
@@ -286,61 +286,26 @@ def send_email_notifications(foodname, donor_email, recipient_email):
         server.login(sender_email, sender_password)
 
         # Send email to the donor
-        msg = EmailMessage()
-        msg['Subject'] = subject
-        msg['From'] = sender_email
-        msg['To'] = donor_email
-        msg.set_content(donor_message)
-        server.send_message(msg)
+        donor_msg = EmailMessage()
+        donor_msg.set_content(donor_message)
+        donor_msg['Subject'] = subject
+        donor_msg['From'] = sender_email
+        donor_msg['To'] = donor_email
+        server.send_message(donor_msg)
 
         # Send email to the recipient
-        msg = EmailMessage()
-        msg['Subject'] = subject
-        msg['From'] = sender_email
-        msg['To'] = recipient_email
-        msg.set_content(recipient_message)
-        server.send_message(msg)
+        recipient_msg = EmailMessage()
+        recipient_msg.set_content(recipient_message)
+        recipient_msg['Subject'] = subject
+        recipient_msg['From'] = sender_email
+        recipient_msg['To'] = recipient_email
+        server.send_message(recipient_msg)
 
         server.quit()
+
     except Exception as e:
         print(f"Error sending email: {e}")
 
 
-
 if __name__ == '__main__':
-    # Ensure tables exist
-    connection = sqlite3.connect(db_file)
-    cursor = connection.cursor()
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS USERS(
-            first_name TEXT NOT NULL,
-            last_name TEXT NOT NULL,
-            email TEXT PRIMARY KEY,
-            password TEXT NOT NULL
-        )
-    """)
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS DONATION(
-            first_name TEXT NOT NULL,
-            last_name TEXT NOT NULL,
-            email TEXT NOT NULL,
-            foodname TEXT NOT NULL,
-            quantity INTEGER NOT NULL,
-            donation_date DATE NOT NULL,
-            service TEXT NOT NULL
-        )
-    """)
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS INVENTORY(
-            foodname TEXT NOT NULL,
-            quantity INTEGER NOT NULL,
-            expiry DATE NOT NULL,
-            door_no TEXT NOT NULL
-        )
-    """)
-    connection.commit()
-    connection.close()
-
-
-
     app.run(debug=True)
